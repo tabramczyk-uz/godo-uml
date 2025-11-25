@@ -11,8 +11,19 @@ config_version=5
 [application]
 
 config/name="GodoUML"
+run/main_scene="uid://cp3qss2m78hqj"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[debug]
+
+gdscript/warnings/standalone_ternary=0
+
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
+theme/custom="uid://feujhnaqa57x"
+theme/custom_font="uid://c5ob13tyh5dbw"
 
 [rendering]
 

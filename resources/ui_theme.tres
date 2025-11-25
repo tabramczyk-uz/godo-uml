@@ -1,0 +1,15 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://feujhnaqa57x"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_dmjyp"]
+color = Color(0.62219584, 0.62219584, 0.62219584, 1)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 2
+
+[resource]
+HSeparator/constants/separation = 0
+HSeparator/styles/separator = SubResource("StyleBoxLine_dmjyp")
+MarginContainer/constants/margin_bottom = 8
+MarginContainer/constants/margin_left = 8
+MarginContainer/constants/margin_right = 8
+MarginContainer/constants/margin_top = 8

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://deqcp5lnd1g6v"]
+
+[ext_resource type="Script" uid="uid://kq7h0fpw8unj" path="res://scenes/edit_popup.gd" id="1_wn6vi"]
+
+[node name="EditPopup" type="LineEdit"]
+visible = false
+custom_minimum_size = Vector2(150, 0)
+offset_right = 46.375
+offset_bottom = 30.0
+placeholder_text = "Enter text..."
+script = ExtResource("1_wn6vi")
