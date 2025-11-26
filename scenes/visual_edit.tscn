@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://usjtr8lmima4"]
+
+[ext_resource type="Script" uid="uid://dr4u5bvjq63jc" path="res://scenes/visual_edit.gd" id="1_2n2c7"]
+
+[node name="VisualEdit" type="Panel"]
+clip_contents = true
+custom_minimum_size = Vector2(100, 100)
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_2n2c7")
+
+[node name="Anchor" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2

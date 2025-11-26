@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://buhjtj8po1kgh"]
+
+[ext_resource type="Script" uid="uid://bux5w8hd7moy4" path="res://scenes/code_editor.gd" id="1_q0psu"]
+
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_q0psu"]
+number_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+symbol_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+function_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+member_variable_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+
+[node name="CodeEdit" type="CodeEdit"]
+custom_minimum_size = Vector2(100, 100)
+size_flags_horizontal = 3
+minimap_draw = true
+caret_blink = true
+caret_multiple = false
+use_custom_word_separators = true
+syntax_highlighter = SubResource("CodeHighlighter_q0psu")
+highlight_all_occurrences = true
+highlight_current_line = true
+draw_tabs = true
+symbol_lookup_on_click = true
+symbol_tooltip_on_hover = true
+line_folding = true
+gutters_draw_line_numbers = true
+indent_automatic = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
+script = ExtResource("1_q0psu")
+string_color = Color(0.80784315, 0.5686275, 0.47058824, 1)
+comment_color = Color(0.41568628, 0.6, 0.25882354, 1)
+
+[node name="UpdateTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+autostart = true
