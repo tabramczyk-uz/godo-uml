@@ -6,5 +6,6 @@ func set_uml_node(p_uml_node: UMLNode) -> void:
 	assert(p_uml_node is UMLClass)
 
 func _ready() -> void:
+	if not uml_node is UMLClass:
+		uml_node = UMLClass.new()
 	super._ready()
-	assert(uml_node is UMLClass)
