@@ -15,23 +15,28 @@ const UML_NODE_CONTAINER: PackedScene = preload("uid://cqijk423gtgaw")
 @onready var anchor: Control = %Anchor
 @onready var gray_out: ColorRect = %GrayOut
 
-var is_diagram_rendered: bool = false
+var diagram: UMLDiagram = null
 var is_dragging_view: bool = false
+var containers: Dictionary[UMLNode, UMLNodeContainer] = {}
 
-func render_diagram(diagram: UMLDiagram) -> void:
-	is_diagram_rendered = diagram != null
+func render_diagram(new_diagram: UMLDiagram) -> void:
+	var is_diagram_rendered: bool = new_diagram != null
 	gray_out.visible = not is_diagram_rendered
 	toggle_nodes(is_diagram_rendered)
 
 	if not is_diagram_rendered:
 		return
+	
+	diagram = new_diagram
 
 	for child: Node in anchor.get_children():
 		anchor.remove_child(child)
 		child.queue_free()
 	
-	for node: UMLNode in diagram.nodes:
+	for node: UMLNode in new_diagram.nodes:
 		add_uml_node(node)
+	
+	queue_redraw()
 
 func add_uml_node(node: UMLNode) -> void:
 	var node_container: UMLNodeContainer = null
@@ -49,14 +54,31 @@ func add_uml_node(node: UMLNode) -> void:
 	node_container.set_uml_node(node)
 	node_container.name_changed.connect(node_name_changed.emit)
 	node_container.position_changed.connect(node_position_changed.emit)
+	containers[node] = node_container
 
 func toggle_nodes(enabled: bool) -> void:
 	for child: Node in anchor.get_children():
 		if child is UMLNodeContainer:
 			child.toggle_input(enabled)
 
+func _draw() -> void:
+	if diagram == null:
+		return
+
+	for relationship: UMLRelationship in diagram.relationships:
+		assert(relationship.from != null)
+		assert(relationship.to != null)
+
+		var from_container: UMLNodeContainer = containers[relationship.from]
+		var to_container: UMLNodeContainer = containers[relationship.to]
+
+		var from_position: Vector2 = from_container.get_connection_point_position() - self.global_position
+		var to_position: Vector2 = to_container.get_connection_point_position() - self.global_position
+
+		draw_line(from_position, to_position, Color.WHITE, 2.0, true)
+
 func _input(event: InputEvent) -> void:
-	if not is_diagram_rendered:
+	if diagram == null:
 		return
 
 	if event is InputEventMouseButton:
@@ -85,3 +107,4 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventMouseMotion:
 		if is_dragging_view:
 			anchor.position += event.relative / anchor.scale
+		queue_redraw()

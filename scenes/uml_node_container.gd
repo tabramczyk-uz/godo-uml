@@ -12,6 +12,9 @@ signal position_changed(node: UMLNode, new_position: Vector2)
 var is_enabled: bool = true
 var is_held: bool = false
 
+func get_connection_point_position() -> Vector2:
+	return self.get_global_rect().get_center()
+
 func set_uml_node(p_uml_node: UMLNode) -> void:
 	uml_node = p_uml_node
 	name_label.text = uml_node.name

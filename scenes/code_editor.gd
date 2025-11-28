@@ -32,13 +32,18 @@ func change_node_position(node: UMLNode, new_position: Vector2):
 	parse_code()
 
 func show_error(message: String, line_number: int) -> void:
+	if error_line != -1:
+		code_edit.set_line_background_color(error_line, default_color)
+	
 	code_edit.set_line_background_color(line_number, error_color)
 	error_label.text = "Error on line %d: %s" % [line_number + 1, message]
 	error_container.show()
 	error_line = line_number
 
 func dismiss_error() -> void:
-	code_edit.set_line_background_color(error_line, default_color)
+	if error_line < code_edit.get_line_count():
+		code_edit.set_line_background_color(error_line, default_color)
+	
 	error_container.hide()
 	error_line = -1
 

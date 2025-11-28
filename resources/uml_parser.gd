@@ -34,12 +34,15 @@ const NODE_PROPERTY_NAMES: Dictionary[NodeProperty, String] = {
 	NodeProperty.POSITION: "position"
 }
 
+const RELATIONSHIP_REGEX_PATTERN: String = r"([a-zA-Z_][a-zA-Z0-9_]*)\s*([\-\.]{1,2}|[<>]{1,2}|[oO]{1,2})\s*([a-zA-Z_][a-zA-Z0-9_]*)"
+
 const POSITION_REGEX_PATTERN: String = r"\[\s*([\-+]?\d*\.?\d+)\s*,\s*([\-+]?\d*\.?\d+)\s*\]"
 const NEW_POSITION_LINE: String = "\t%s: [%s, %s]"
 
 var node_regex: RegEx = RegEx.create_from_string(NODE_REGEX_PATTERN)
 var property_regex: RegEx = RegEx.create_from_string(NODE_PROPERTY_REGEX_PATTERN)
 var position_regex: RegEx = RegEx.create_from_string(POSITION_REGEX_PATTERN)
+var relationship_regex: RegEx = RegEx.create_from_string(RELATIONSHIP_REGEX_PATTERN)
 
 func parse_code(code: String) -> UMLDiagram:
 	var diagram: UMLDiagram = UMLDiagram.new()
@@ -119,6 +122,26 @@ func parse_code(code: String) -> UMLDiagram:
 			taken_node_names.append(node_name)
 			continue
 		
+		var relationship_regex_match: RegExMatch = relationship_regex.search(line)
+		if relationship_regex_match:
+			var from_node_name: String = relationship_regex_match.get_string(1)
+			# var relationship_type_str: String = relationship_regex_match.get_string(2)
+			var to_node_name: String = relationship_regex_match.get_string(3)
+
+			var from_node: UMLNode = get_node_by_name(diagram, from_node_name)
+			var to_node: UMLNode = get_node_by_name(diagram, to_node_name)
+
+			if from_node == null:
+				error_occurred.emit("Unknown node: %s" % from_node_name, line_number)
+				return null
+			if to_node == null:
+				error_occurred.emit("Unknown node: %s" % to_node_name, line_number)
+				return null
+			
+			var relationship: UMLRelationship = UMLRelationship.new(from_node, to_node)
+			diagram.relationships.append(relationship)
+			continue
+		
 		error_occurred.emit("Syntax error", line_number)
 		return null
 
@@ -191,6 +214,13 @@ func get_line_indentation(line: String) -> int:
 			break
 	
 	return indent
+
+func get_node_by_name(diagram: UMLDiagram, node_name: String) -> UMLNode:
+	for node: UMLNode in diagram.nodes:
+		if node.name == node_name:
+			return node
+	
+	return null
 
 func get_node_type(node: UMLNode) -> NodeType:
 	if node is UMLClass:

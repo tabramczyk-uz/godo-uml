@@ -23,6 +23,10 @@ UMLParser="*res://resources/uml_parser.gd"
 
 gdscript/warnings/standalone_ternary=0
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
+
 [gui]
 
 theme/default_font_multichannel_signed_distance_field=true
