@@ -9,12 +9,16 @@ signal position_changed(node: UMLNode, new_position: Vector2)
 @onready var name_label: RichTextLabel = %Name
 @onready var edit_popup: EditPopup = %EditPopup
 
+var is_enabled: bool = true
 var is_held: bool = false
 
 func set_uml_node(p_uml_node: UMLNode) -> void:
 	uml_node = p_uml_node
 	name_label.text = uml_node.name
 	self.position = uml_node.position
+
+func toggle_input(enabled: bool) -> void:
+	is_enabled = enabled
 
 func _ready() -> void:
 	name_label.text = uml_node.name
@@ -29,6 +33,9 @@ func _on_edit_finished(new_name: String) -> void:
 	name_changed.emit(uml_node, new_name)
 
 func _input(event: InputEvent) -> void:
+	if not is_enabled:
+		return
+
 	if event is InputEventMouseButton:
 		if event.pressed and get_global_rect().has_point(event.position):
 			is_held = true

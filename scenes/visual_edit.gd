@@ -13,12 +13,17 @@ const UML_NODE_CONTAINER: PackedScene = preload("uid://cqijk423gtgaw")
 @export var scroll_sensitivity: float = 5.0
 
 @onready var anchor: Control = %Anchor
+@onready var gray_out: ColorRect = %GrayOut
 
+var is_diagram_rendered: bool = false
 var is_dragging_view: bool = false
 
 func render_diagram(diagram: UMLDiagram) -> void:
-	if not diagram:
-		# TODO: Display that a new diagram wasn't rendered with grayed out UI
+	is_diagram_rendered = diagram != null
+	gray_out.visible = not is_diagram_rendered
+	toggle_nodes(is_diagram_rendered)
+
+	if not is_diagram_rendered:
 		return
 
 	for child: Node in anchor.get_children():
@@ -45,7 +50,15 @@ func add_uml_node(node: UMLNode) -> void:
 	node_container.name_changed.connect(node_name_changed.emit)
 	node_container.position_changed.connect(node_position_changed.emit)
 
+func toggle_nodes(enabled: bool) -> void:
+	for child: Node in anchor.get_children():
+		if child is UMLNodeContainer:
+			child.toggle_input(enabled)
+
 func _input(event: InputEvent) -> void:
+	if not is_diagram_rendered:
+		return
+
 	if event is InputEventMouseButton:
 		if event.button_index == drag_button \
 		or (event.button_index == alt_drag_button and Input.is_key_pressed(alt_drag_key)):
