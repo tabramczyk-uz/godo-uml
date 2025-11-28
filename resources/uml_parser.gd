@@ -44,7 +44,7 @@ var position_regex: RegEx = RegEx.create_from_string(POSITION_REGEX_PATTERN)
 func parse_code(code: String) -> UMLDiagram:
 	var diagram: UMLDiagram = UMLDiagram.new()
 	
-	var lines: PackedStringArray = code.split("\n", false)
+	var lines: PackedStringArray = code.split("\n")
 	var line_number: int = -1
 	var current_node: UMLNode = null
 	var current_node_set_properties: Array[NodeProperty] = []
@@ -125,7 +125,7 @@ func parse_code(code: String) -> UMLDiagram:
 	return diagram
 
 func change_node_name(code: String, node: UMLNode, new_name: String) -> String:
-	var lines: PackedStringArray = code.split("\n", false)
+	var lines: PackedStringArray = code.split("\n")
 	for line_number in range(lines.size()):
 		var line: String = lines[line_number]
 		var split_line: PackedStringArray = line.split(COMMENT_PREFIX)

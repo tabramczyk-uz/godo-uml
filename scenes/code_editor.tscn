@@ -12,9 +12,32 @@ keyword_colors = {
 "]": Color(0.80784315, 0.4392157, 0.8392157, 1)
 }
 
-[node name="CodeEdit" type="CodeEdit"]
+[node name="CodeEditor" type="Panel"]
 custom_minimum_size = Vector2(100, 100)
+offset_right = 100.0
+offset_bottom = 100.0
+script = ExtResource("1_q0psu")
+
+[node name="UpdateTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+autostart = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="CodeEdit" type="CodeEdit" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 minimap_draw = true
 caret_blink = true
 caret_multiple = false
@@ -29,13 +52,19 @@ gutters_draw_line_numbers = true
 indent_automatic = true
 auto_brace_completion_enabled = true
 auto_brace_completion_highlight_matching = true
-script = ExtResource("1_q0psu")
-string_color = Color(0.80784315, 0.5686275, 0.47058824, 1)
-comment_color = Color(0.41568628, 0.6, 0.25882354, 1)
-error_color = Color(0.38039216, 0.23529412, 0.23921569, 1)
 
-[node name="UpdateTimer" type="Timer" parent="."]
+[node name="ErrorContainer" type="MarginContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
-wait_time = 0.3
-one_shot = true
-autostart = true
+visible = false
+layout_mode = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="ErrorLabel" type="RichTextLabel" parent="VBoxContainer/ErrorContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/default_color = Color(0.77, 0, 0, 1)
+bbcode_enabled = true
+text = "Error"
+fit_content = true
+vertical_alignment = 1

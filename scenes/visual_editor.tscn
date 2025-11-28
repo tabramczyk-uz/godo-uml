@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://usjtr8lmima4"]
 
-[ext_resource type="Script" uid="uid://dr4u5bvjq63jc" path="res://scenes/visual_edit.gd" id="1_2n2c7"]
+[ext_resource type="Script" uid="uid://dr4u5bvjq63jc" path="res://scenes/visual_editor.gd" id="1_2n2c7"]
 
-[node name="VisualEdit" type="Panel"]
+[node name="VisualEditor" type="Panel"]
 clip_contents = true
 custom_minimum_size = Vector2(100, 100)
 offset_right = 40.0

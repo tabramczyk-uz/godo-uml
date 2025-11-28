@@ -1,5 +1,5 @@
 extends Panel
-class_name VisualEdit
+class_name VisualEditor
 
 signal node_name_changed(node: UMLNode, new_name: String)
 signal node_position_changed(node: UMLNode, new_position: Vector2)
@@ -84,4 +84,4 @@ func _input(event: InputEvent) -> void:
 			anchor.position += scroll_sensitivity * Vector2.RIGHT
 	elif event is InputEventMouseMotion:
 		if is_dragging_view:
-			anchor.position += event.relative
+			anchor.position += event.relative / anchor.scale
